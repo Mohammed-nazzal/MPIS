@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "MPIS-APP",
-    "slug": "MPIS-APP",
+    "slug": "mpis",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,7 +18,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mohammednazzal.mpis"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,6 +29,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "4c2d1f58-e4b5-48cb-84d7-bfe9b93f831b"
+      }
+    },
+    "owner": "mohammednazzal"
   }
 }
