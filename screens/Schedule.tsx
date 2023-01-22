@@ -213,7 +213,7 @@ const Schedule = () => {
         }
 
         selected.EveryDay || selected.EveryNumDays
-        ? selected.EveryDay? set(dbRef, {Mode: getSelectedMode(),data: data}):
+        ? selected.EveryDay? set(dbRef, {Mode: getSelectedMode(),data: data, numOfTimes: value}):
         set(dbRef, {Mode: getSelectedMode(), data: data,numOfTimes: 1, startday: (new Date(Date.now() )).getDay(),Numofdays: valueNumDays})
         : set(dbRef, {Mode: getSelectedMode()})
 
