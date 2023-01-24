@@ -6,7 +6,7 @@ import { SafeAreaView, Modal } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import type { RootStackParamList } from '../utils/routes';
-import { ref, onValue, set,child, push, remove, get } from "firebase/database";
+import { ref, onValue, set,child, push, remove, get, getDatabase } from "firebase/database";
 import startFirebase from '../firebase-config';
 
 type Data = { 
@@ -22,6 +22,7 @@ type Data = {
 }
 
 export default function Home() {
+  let isRun = 0
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const [fetchTime, setFetchTime] = useState(true)
   const id = parseInt(useRoute().name.charAt(4));
@@ -63,19 +64,29 @@ export default function Home() {
     scheduleData = (snapshot.val().data);
       });
   
-  const handleIrrigateNow = () => {
+  const handleIrrigateNow = async() => {
+    
+    const IrrigatnowRef = ref(db, `irrigateNow${id}`);
     const nextPayId = id == 1 ? 2 : 1;
     const checkRef = ref(db, `irrigateNow${nextPayId}`);
-    let isRun = 0
-    onValue(checkRef, (snapshot) => {
-      if(snapshot.val().endHour !== 99){
-        Alert.alert('Irrigate now running on other farm');
-        isRun = 1;
-      }
-      
-    });
-    const IrrigatnowRef = ref(db, `irrigateNow${id}`);
-    !isRun && set(IrrigatnowRef,
+          
+    const dbRef = ref(getDatabase());
+    await get(child(dbRef, `irrigateNow${nextPayId}`)).then((snapshot) => {
+  if (snapshot.exists()) {
+    if(snapshot.val().endHour !== 99){
+      isRun = 1
+    }
+  } else {
+    console.log("No data available");
+  }
+}).catch((error) => {
+  console.error(error);
+});
+    if(isRun === 1){
+      Alert.alert('Irrigate now running on other farm');
+      return
+    }
+    isRun === 0 && set(IrrigatnowRef,
       {endHour: new Date(Date.now()+parseInt(period)*60000).getHours(),
        endMinute: new Date(Date.now()+parseInt(period)*60000).getMinutes(),
        fertilizer: parseInt(fertilizer),
@@ -87,6 +98,8 @@ export default function Home() {
       onValue(dbRef, (snapshot) => {
         data = (snapshot.val());
           });
+          
+          
       setFetchTime(!fetchTime)
     }, 100);
     return () => clearInterval(interval);
