@@ -64,8 +64,18 @@ export default function Home() {
       });
   
   const handleIrrigateNow = () => {
+    const nextPayId = id == 1 ? 2 : 1;
+    const checkRef = ref(db, `irrigateNow${nextPayId}`);
+    let isRun = 0
+    onValue(checkRef, (snapshot) => {
+      if(snapshot.val().endHour !== 99){
+        Alert.alert('Irrigate now running on other farm');
+        isRun = 1;
+      }
+      
+    });
     const IrrigatnowRef = ref(db, `irrigateNow${id}`);
-    set(IrrigatnowRef,
+    !isRun && set(IrrigatnowRef,
       {endHour: new Date(Date.now()+parseInt(period)*60000).getHours(),
        endMinute: new Date(Date.now()+parseInt(period)*60000).getMinutes(),
        fertilizer: parseInt(fertilizer),
