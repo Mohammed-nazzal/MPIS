@@ -87,6 +87,7 @@ type PickerProps = {
           <View style={styles.container}>
               <Text>Time: </Text>
               <DateTimePicker
+                
                 testID="dateTimePicker"
                 value={date}
                 mode='time'
@@ -102,7 +103,7 @@ type PickerProps = {
               onChangeText={text => onChanged(text, true)}
               value={period}
               style={styles.input}
-              placeholder='Minuites'
+              placeholder='Minutes'
               maxLength={10}
             />
           </View>
@@ -114,7 +115,7 @@ type PickerProps = {
               onChangeText={text => onChanged(text, false)}
               value={fertilizer}
               style={styles.input}
-              placeholder='Litres'
+              placeholder='Minutes'
               maxLength={10}
             />
           </View>

@@ -110,7 +110,7 @@ export default function Home() {
               onChangeText={text => onChanged(text, true)}
               value={period}
               style={styles.input}
-              placeholder='Minuites'
+              placeholder='Minutes'
               maxLength={10}
             />
           </View>
@@ -122,15 +122,23 @@ export default function Home() {
               onChangeText={text => onChanged(text, false)}
               value={fertilizer}
               style={styles.input}
-              placeholder='Litres'
+              placeholder='Minutes'
               maxLength={10}
             />
           </View>
+            <View style={{ flexDirection: 'row'}}>
             <Pressable
               style={[styles.button, styles.buttonClose]}
               onPress={() => handleIrrigateNow()}>
               <Text >Submit</Text>
             </Pressable>
+
+            <Pressable
+              style={[styles.button, styles.buttonClose]}
+              onPress={() => setModalVisible(false)}>
+              <Text >Cancel</Text>
+            </Pressable>
+            </View>
           </View>
         </View>
       </Modal>
@@ -194,10 +202,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    marginBottom: 10,
+    marginRight: 10,
   },
   
   buttonClose: {
     backgroundColor: 'green',
+    
   },
   input: {
     borderWidth:1,
